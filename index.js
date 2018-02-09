@@ -28,6 +28,13 @@ app.get('/api/persons/:id', (request, response) => {
     response.json(entry)
 })
 
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    numeroTaulukko = numeroTaulukko.filter(olio => olio.id !== id)
+  
+    response.status(204).end()
+  })
+
 const PORT = 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
