@@ -52,14 +52,31 @@ app.post('/api/persons', (request, response) => {
     newEntry.date = new Date()
     console.log(newEntry)
 
-    if(request.body.name === undefined || request.body.numero === undefined){
-        return response.status(400).json({error: 'name or numero is null'})
+    if(request.body.name === undefined){
+        return response.status(400).json({error: 'name is null'})
+    }
+    if(request.body.numero === undefined){
+        return response.status(400).json({error: "numero is null"})
+    }
+
+    let addable = true
+
+    numeroTaulukko.find(function(element){
+        console.log("noniin")
+        if(element.name === request.body.name){
+            addable = false
+        }
+    })
+
+
+    if(addable){
+        numeroTaulukko = numeroTaulukko.concat(newEntry)
+        response.json(newEntry)
+    } else {
+        return response.status(400).json({error: "dublicate detected"})
     }
 
 
-    numeroTaulukko = numeroTaulukko.concat(newEntry)
-  
-    response.json(newEntry)
   })
 
 const PORT = 3001
