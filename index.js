@@ -4,7 +4,9 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 
 app.use(bodyParser.json())
-app.use(morgan('tiny'))
+app.use(morgan(':method :  :status :informaatio :res[content-length] - :response-time ms'))
+morgan.token('informaatio', function (req, res) { return JSON.stringify(req.body) })
+
 
 let numeroTaulukko = [
     { name: "Reiska", numero: 0451235, id: 1, date: new Date() },
@@ -48,38 +50,35 @@ function getRandomArbitrary(min, max) {
 
 app.post('/api/persons', (request, response) => {
 
-    const newId = getRandomArbitrary(1,1000000)
+    const newId = getRandomArbitrary(1, 1000000)
     const newEntry = request.body
     newEntry.id = newId
     newEntry.date = new Date()
-    console.log(newEntry)
 
-    if(request.body.name === undefined){
-        return response.status(400).json({error: 'name is null'})
+    if (request.body.name === undefined) {
+        return response.status(400).json({ error: 'name is null' })
     }
-    if(request.body.numero === undefined){
-        return response.status(400).json({error: "numero is null"})
+    if (request.body.numero === undefined) {
+        return response.status(400).json({ error: "numero is null" })
     }
 
     let addable = true
 
-    numeroTaulukko.find(function(element){
-        console.log("noniin")
-        if(element.name === request.body.name){
+    numeroTaulukko.find(function (element) {
+        if (element.name === request.body.name) {
             addable = false
         }
     })
 
 
-    if(addable){
+    if (addable) {
         numeroTaulukko = numeroTaulukko.concat(newEntry)
-        response.json(newEntry)
     } else {
-        return response.status(400).json({error: "dublicate detected"})
+        return response.status(400).json({ error: "dublicate detected" })
     }
 
 
-  })
+})
 
 const PORT = 3001
 app.listen(PORT, () => {
