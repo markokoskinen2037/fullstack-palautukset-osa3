@@ -18,7 +18,7 @@ let numeroTaulukko = [
 ]
 
 app.get('/', (req, res) => {
-    res.send("hello")
+    res.send(index.html)
 })
 
 app.get('/api/persons', (req, res) => {
