@@ -2,7 +2,9 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
+const cors = require('cors')
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(morgan(':method :  :status :informaatio :res[content-length] - :response-time ms'))
 morgan.token('informaatio', function (req, res) { return JSON.stringify(req.body) })
@@ -27,17 +29,16 @@ app.get('/api/persons/:id', (request, response) => {
     const entry = numeroTaulukko.find(olio => olio.id === id)
 
     if (entry) {
-        response.json(entry)
+        return response.json(entry)
     } else {
-        response.status(404).end()
+        return response.status(404).end()
     }
 
-    response.json(entry)
 })
 
 app.delete('/api/persons/:id', (request, response) => {
     const id = Number(request.params.id)
-    numeroTaulukko = numeroTaulukko.filter(olio => olio.id !== id)
+    notes = notes.filter(note => note.id !== id)
 
     response.status(204).end()
 })
@@ -70,6 +71,7 @@ app.post('/api/persons', (request, response) => {
         }
     })
 
+    response.json(newEntry)
 
     if (addable) {
         numeroTaulukko = numeroTaulukko.concat(newEntry)
