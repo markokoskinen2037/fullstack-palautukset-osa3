@@ -3,6 +3,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person.js')
+
 
 app.use(cors())
 app.use(express.static('build'))
@@ -18,9 +20,15 @@ let numeroTaulukko = [
 ]
 
 
-app.get('/api/persons', (req, res) => {
-    res.json(numeroTaulukko)
-})
+app.get('/api/persons', (request, response) => {
+    console.log("helo")
+    Person
+      .find({})
+      .then(persons => {
+          console.log("asdddddddddddd")
+        response.json(persons)
+      })
+  });
 
 app.get('/info', (req, res) => {
     res.send("<p>Taulukossa on on " + numeroTaulukko.length + " ukkelin tiedot</p>" +
