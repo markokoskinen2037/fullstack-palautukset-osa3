@@ -11,8 +11,6 @@ const Henkilo = mongoose.model('Henkilo', {
 })
 
 
-
-
 if (process.argv[2] != undefined && process.argv[3] != undefined) {
     const henkilo = new Henkilo({
         nimi: process.argv[2],
@@ -40,9 +38,3 @@ if (process.argv[2] != undefined && process.argv[3] != undefined) {
 
 
 }
-
-
-
-
-
-
