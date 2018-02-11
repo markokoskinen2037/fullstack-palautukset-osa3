@@ -17,9 +17,6 @@ let numeroTaulukko = [
     { name: "Poliisi-setä", numero: 112, id: 2, date: new Date() }
 ]
 
-app.get('/', (req, res) => {
-    res.send(build/index.html)
-})
 
 app.get('/api/persons', (req, res) => {
     res.json(numeroTaulukko)
