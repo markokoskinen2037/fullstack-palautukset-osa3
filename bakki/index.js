@@ -48,50 +48,44 @@ app.get('/api/persons/:id', (request, response) => {
 })
 
 app.delete('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    notes = notes.filter(note => note.id !== id)
-
-    response.status(204).end()
-})
+    Person
+      .findByIdAndRemove(request.params.id)
+      .then( () => {
+        response.status(204).end()
+      })
+      .catch( () => {
+        response.status(400).send({ error: 'malformatted id' })
+      })
+  })
 
 function getRandomArbitrary(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-
-
 app.post('/api/persons', (request, response) => {
+    const body = request.body
+    console.log(body)
+  
 
-    const newId = getRandomArbitrary(1, 1000000)
-    const newEntry = request.body
-    newEntry.id = newId
-    newEntry.date = new Date()
-
-    if (request.body.name === undefined) {
-        return response.status(400).json({ error: 'name is null' })
-    }
-    if (request.body.numero === undefined) {
-        return response.status(400).json({ error: "numero is null" })
-    }
-
-    let addable = true
-
-    numeroTaulukko.find(function (element) {
-        if (element.name === request.body.name) {
-            addable = false
-        }
+  
+    const person = new Person({
+      name:body.name,
+      numero:body.numero
     })
+  
+    person
+      .save()
+      .then(
+          response.json(person)
+      )
+  })
 
-    response.json(newEntry)
-
-    if (addable) {
-        numeroTaulukko = numeroTaulukko.concat(newEntry)
-    } else {
-        return response.status(400).json({ error: "dublicate detected" })
-    }
 
 
-})
+
+
+
+
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
