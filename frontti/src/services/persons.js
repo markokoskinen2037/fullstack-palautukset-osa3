@@ -14,7 +14,7 @@ const update = (id, newObject) => {
 }
 
 const deletePerson = (person) => {
-  return axios.post(`${baseUrl}/${person.id}`, "DELETE")
+  return axios.delete(`${baseUrl}/${person._id}`)
 }
 
 export default { getAll, create, update, deletePerson }

@@ -101,7 +101,8 @@ class App extends React.Component {
 
     return (
       <div>
-        <h2>Puhelinluettelo</h2>
+        <h2>Puhelinluettelo v.2</h2>
+        <pre>huom! kun poistat numeron tietokannasta, päivitä sivua manuaalisesti!</pre>
 
 
         <div onChange={this.handleFilterChange}>rajaa näytettäviä: <input /></div>
